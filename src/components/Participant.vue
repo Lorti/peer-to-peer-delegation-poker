@@ -42,13 +42,15 @@ export default {
 .participant__vote {
   flex-grow: 1;
 }
-.participant__remove {}
+.participant__remove {
+  margin: 1rem;
+}
 .participant__card {
   overflow: hidden;
   width: 8rem;
   height: 12rem;
   border-radius: 1rem;
-  background: lightgray;
+  background: repeating-linear-gradient(45deg, transparent, transparent 10px, lightgray 10px, lightgray 20px);
 }
 .participant__card--back {
   display: flex;

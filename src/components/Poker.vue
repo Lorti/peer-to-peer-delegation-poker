@@ -5,8 +5,8 @@
         <button @click="startSession">Start a new delegation poker session</button>
       </p>
       <p>
-        <input v-model="destinationId" type="text" placeholder="ID of your host">
-        <input v-model="name" type="text" placeholder="Your name">
+        <input v-model="destinationId" type="text" placeholder="ID of your host"><br>
+        <input v-model="name" type="text" placeholder="Your name"><br>
         <button @click="connect(destinationId)">Connect to a delegation poker session</button>
       </p>
     </div>
@@ -16,22 +16,21 @@
       </p>
       <p>
         <textarea v-model="keyDecisionArea"
-                  placeholder="What key decision area are we talking about?"/>
-      </p>
-      <p>
+                  placeholder="What key decision area are we talking about?"/><br>
         <button @click="startRound">Start a new round</button>
       </p>
       <Participant
-        v-for="peer in remotePeers" :key="peer.id"
-        :name="peer.name"
-        :card="peer.card"
+        v-for="participant in remotePeers" :key="participant.id"
+        :name="participant.name"
+        :card="participant.card"
         :show-card="showResults"
+        @remove-participant="removeParticipant(participant)"
       />
     </div>
     <div v-if="isParticipant && !card">
       <p>
         <span v-if="keyDecisionArea">{{ keyDecisionArea }}</span>
-        <span v-else>The next round is starting soon ...</span>
+        <span v-else>Thank you. Please wait for the next round ...</span>
       </p>
       <p v-if="keyDecisionArea">
         <button class="votingButton" @click="vote(1)">
@@ -131,10 +130,14 @@ export default {
         this.card = null;
       });
     },
+    removeParticipant(participant) {
+      const index = this.remotePeers.indexOf(participant);
+      this.remotePeers.splice(index, 1);
+    },
     vote(card) {
       this.card = card;
       this.connection.send(card);
-    }
+    },
   }
 }
 </script>
