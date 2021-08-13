@@ -4,20 +4,23 @@
       <p>
         <button @click="startSession">Start a new delegation poker session</button>
       </p>
+      <p>or</p>
       <p>
-        <input v-model="destinationId" type="text" placeholder="ID of your host"><br>
-        <input v-model="name" type="text" placeholder="Your name"><br>
+        <input v-model="destinationId" type="text" placeholder="ID of your host">
+        <input v-model="name" type="text" placeholder="Your name">
         <button @click="connect(destinationId)">Connect to a delegation poker session</button>
       </p>
     </div>
     <div v-if="isHost">
       <p>
-        <input :value="sourceId" readonly>
+        <label>
+          Your host ID is <input :value="sourceId" readonly>.
+        </label>
       </p>
       <p>
         <textarea v-model="keyDecisionArea"
                   placeholder="What key decision area are we talking about?"/><br>
-        <button @click="startRound">Start a new round</button>
+        <button @click="startRound" :disabled="roundStarted">Start a new round</button>
       </p>
       <Participant
         v-for="participant in remotePeers" :key="participant.id"
@@ -26,11 +29,14 @@
         :show-card="showResults"
         @remove-participant="removeParticipant(participant)"
       />
+      <p v-if="!remotePeers.length">
+        Please wait for participants ...
+      </p>
     </div>
     <div v-if="isParticipant && !card">
       <p>
         <span v-if="keyDecisionArea">{{ keyDecisionArea }}</span>
-        <span v-else>Thank you. Please wait for the next round ...</span>
+        <span v-else>Thank you, {{ name }}. Please wait for the next round ...</span>
       </p>
       <p v-if="keyDecisionArea">
         <button class="votingButton" @click="vote(1)">
@@ -76,6 +82,7 @@ export default {
       sourceId: '',
       destinationId: '',
       keyDecisionArea: '',
+      roundStarted: false,
       isHost: false,
       peer: null,
       remotePeers: [],
@@ -116,9 +123,10 @@ export default {
   methods: {
     startSession() {
       this.isHost = true;
-      this.showResults = false;
     },
     startRound() {
+      this.roundStarted = true;
+      setTimeout(() => this.roundStarted = false, 5000);
       this.remotePeers.forEach((remotePeer) => {
         remotePeer.connection.send(this.keyDecisionArea);
       })
