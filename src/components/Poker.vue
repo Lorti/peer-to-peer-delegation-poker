@@ -1,23 +1,23 @@
 <template>
   <div>
     <div v-if="!isHost && !isParticipant">
-      <form class="flex flex-col gap-3 max-w-sm mx-auto">
+      <div class="flex flex-col gap-3 max-w-sm mx-auto">
         <button class="button" @click="startSession">Start a new delegation poker session</button>
         <p>or</p>
         <input class="input" v-model="destinationId" type="text" placeholder="ID of your host">
         <input class="input" v-model="name" type="text" placeholder="Your name">
         <button class="button" @click="connect(destinationId)">Connect to a delegation poker session</button>
-      </form>
+      </div>
     </div>
     <div v-if="isHost">
       <label class="block">
         Your host ID is <input class="input w-auto" :value="sourceId" size="36" readonly>.
       </label>
-      <form class="flex gap-3 my-12">
+      <div class="flex gap-3 my-12">
         <textarea class="input" v-model="keyDecisionArea"
                   placeholder="What key decision area are we talking about?"/>
         <button class="button" @click="startRound" :disabled="roundStarted">Go!</button>
-      </form>
+      </div>
       <Participant
         class="mx-1"
         v-for="participant in remotePeers" :key="participant.id"
