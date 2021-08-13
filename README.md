@@ -1,24 +1,5 @@
-# peer-to-peer-delegation-poker
+# Peer-to-Peer Delegation Poker
 
-## Project setup
-```
-npm install
-```
+[![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.me/manuninja)
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+<https://management30.com/practice/delegation-poker/>
